@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import { GetToken } from 'internal/base/auth/token';
+import { GetToken, GetTokenAdmin } from 'internal/base/auth/token';
 import { WhoAmI } from 'internal/user/api';
 import { AxiosResponse } from 'axios';
 import { UserInfoType } from 'internal/user/type';
@@ -19,7 +19,7 @@ const useAuth =
     const [userInfo, setUserInfo] = React.useState<UserInfoType>();
     const router = useRouter();
     React.useEffect(() => {
-      if (GetToken() === '') router.push('/login');
+      if (GetToken() === '' && GetTokenAdmin() === '') router.push('/login');
       else
         WhoAmI().then((res: AxiosResponse<UserInfoType>) => {
           setUserInfo(res.data);
